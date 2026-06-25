@@ -83,7 +83,6 @@
     <br>
     <span class="badge">ppc64</span>
     <span class="badge">noarch</span>
-    <span class="badge">GPG signed</span>
   </header>
 
   <!-- Endpoint info -->
@@ -98,10 +97,6 @@
     <div class="url-line">
       <strong>.repo file</strong>
       <a href="ibmi-rpm-packages.repo">ibmi-rpm-packages.repo</a>
-    </div>
-    <div class="url-line">
-      <strong>GPG key</strong>
-      <a href="RPM-GPG-KEY-ibmi">RPM-GPG-KEY-ibmi</a>
     </div>
     <div class="url-line">
       <strong>Source</strong>
@@ -120,13 +115,7 @@
      https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi-rpm-packages.repo</pre>
     </div>
     <div class="install-box">
-      <p>2 — Import the GPG key</p>
-      <pre>curl -o /tmp/RPM-GPG-KEY-ibmi \
-     https://ludovic-gasc.github.io/ibmi-rpm-packages/RPM-GPG-KEY-ibmi
-rpm --import /tmp/RPM-GPG-KEY-ibmi</pre>
-    </div>
-    <div class="install-box">
-      <p>3 — Install a package</p>
+      <p>2 — Install a package</p>
       <pre>yum makecache
 yum install qpdf</pre>
     </div>
