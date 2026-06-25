@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IBM i RPM Packages — Ludovic Gasc</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #1f2328;
+      background: #ffffff;
+    }
+    .page { max-width: 760px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    /* Header */
+    header { border-bottom: 1px solid #e5e7eb; padding-bottom: 24px; margin-bottom: 32px; }
+    header h1 { font-size: 1.6rem; font-weight: 600; margin-bottom: 6px; }
+    header p  { color: #57606a; }
+    .badge {
+      display: inline-block; padding: 2px 10px;
+      border-radius: 12px; font-size: 12px; font-weight: 600;
+      background: #dbeafe; color: #1e40af; margin-right: 6px;
+    }
+
+    /* Sections */
+    section { margin-bottom: 40px; }
+    h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 14px;
+         border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
+    h3 { font-size: 0.95rem; font-weight: 600; margin: 18px 0 8px; color: #57606a; }
+
+    /* Install box */
+    .install-box {
+      background: #f7f8fa; border: 1px solid #e5e7eb;
+      border-radius: 6px; padding: 16px 20px; margin-bottom: 16px;
+    }
+    .install-box p { margin-bottom: 8px; color: #57606a; font-size: 13px; }
+    code, pre {
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 13px;
+    }
+    pre {
+      background: #1f2328; color: #e6edf3;
+      border-radius: 6px; padding: 14px 16px;
+      overflow-x: auto; white-space: pre; margin: 8px 0;
+    }
+    code { background: #f0f3f6; padding: 1px 5px; border-radius: 3px; font-size: 12.5px; }
+
+    /* Table */
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    thead tr { background: #f7f8fa; }
+    th { text-align: left; font-weight: 600; padding: 8px 12px;
+         border-bottom: 2px solid #e5e7eb; }
+    td { padding: 7px 12px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    .arch { color: #57606a; font-size: 12px; }
+
+    /* URL line */
+    .url-line {
+      display: flex; align-items: center; gap: 10px;
+      background: #f7f8fa; border: 1px solid #e5e7eb;
+      border-radius: 6px; padding: 10px 14px; font-size: 13px;
+      margin-bottom: 14px;
+    }
+    .url-line strong { color: #57606a; flex-shrink: 0; }
+    .url-line a { color: #3b82d4; word-break: break-all; }
+
+    /* Secrets table */
+    .secrets-table th, .secrets-table td { padding: 6px 10px; }
+
+    /* Footer */
+    footer {
+      text-align: center; font-size: 12px; color: #57606a;
+      border-top: 1px solid #e5e7eb; padding-top: 20px; margin-top: 60px;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <h1>IBM i RPM Packages</h1>
+    <p>Community RPM repository for IBM i / IBM Power</p>
+    <br>
+    <span class="badge">ppc64</span>
+    <span class="badge">noarch</span>
+    <span class="badge">GPG signed</span>
+  </header>
+
+  <!-- Endpoint info -->
+  <section>
+    <h2>Repository endpoints</h2>
+    <div class="url-line">
+      <strong>Base URL</strong>
+      <a href="https://ludovic-gasc.github.io/ibmi-rpm-packages/">
+        https://ludovic-gasc.github.io/ibmi-rpm-packages/
+      </a>
+    </div>
+    <div class="url-line">
+      <strong>.repo file</strong>
+      <a href="ibmi-rpm-packages.repo">ibmi-rpm-packages.repo</a>
+    </div>
+    <div class="url-line">
+      <strong>GPG key</strong>
+      <a href="RPM-GPG-KEY-ibmi">RPM-GPG-KEY-ibmi</a>
+    </div>
+    <div class="url-line">
+      <strong>Source</strong>
+      <a href="https://github.com/ludovic-gasc/ibmi-rpm-packages">
+        github.com/ludovic-gasc/ibmi-rpm-packages
+      </a>
+    </div>
+  </section>
+
+  <!-- Quick install -->
+  <section>
+    <h2>Quick install on IBM i</h2>
+    <div class="install-box">
+      <p>1 — Download and enable the repository</p>
+      <pre>curl -o /QOpenSys/etc/yum/repos.d/ibmi-rpm-packages.repo \
+     https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi-rpm-packages.repo</pre>
+    </div>
+    <div class="install-box">
+      <p>2 — Import the GPG key</p>
+      <pre>curl -o /tmp/RPM-GPG-KEY-ibmi \
+     https://ludovic-gasc.github.io/ibmi-rpm-packages/RPM-GPG-KEY-ibmi
+rpm --import /tmp/RPM-GPG-KEY-ibmi</pre>
+    </div>
+    <div class="install-box">
+      <p>3 — Install a package</p>
+      <pre>yum makecache
+yum install qpdf</pre>
+    </div>
+  </section>
+
+  <!-- Package list -->
+  <section>
+    <h2>Available packages</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Package</th>
+          <th>Version</th>
+          <th>Arch</th>
+          <th>Description</th>
+          <th>Download</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>qpdf</code></td>
+          <td>12.3.2</td>
+          <td><span class="arch">ppc64</span></td>
+          <td>PDF manipulation and conversion tool</td>
+          <td><a href="packages/ppc64/qpdf-12.3.2-1.ibmi.ibmi7.6.ppc64.rpm">↓ RPM</a></td>
+        </tr>
+        <tr>
+          <td><code>qpdf-libs</code></td>
+          <td>12.3.2</td>
+          <td><span class="arch">ppc64</span></td>
+          <td>QPDF shared libraries (libqpdf)</td>
+          <td><a href="packages/ppc64/qpdf-libs-12.3.2-1.ibmi.ibmi7.6.ppc64.rpm">↓ RPM</a></td>
+        </tr>
+        <tr>
+          <td><code>qpdf-devel</code></td>
+          <td>12.3.2</td>
+          <td><span class="arch">ppc64</span></td>
+          <td>QPDF development headers</td>
+          <td><a href="packages/ppc64/qpdf-devel-12.3.2-1.ibmi.ibmi7.6.ppc64.rpm">↓ RPM</a></td>
+        </tr>
+        <tr>
+          <td><code>qpdf-doc</code></td>
+          <td>12.3.2</td>
+          <td><span class="arch">noarch</span></td>
+          <td>QPDF documentation</td>
+          <td><a href="packages/noarch/qpdf-doc-12.3.2-1.ibmi.ibmi7.6.noarch.rpm">↓ RPM</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- CI/CD secrets -->
+  <section>
+    <h2>CI/CD configuration (GitHub Secrets)</h2>
+    <p style="color:#57606a; margin-bottom:12px;">
+      To have the GitHub Actions workflow sign the metadata automatically,
+      add these two secrets under
+      <strong>Settings → Secrets and variables → Actions</strong>:
+    </p>
+    <table class="secrets-table">
+      <thead><tr><th>Secret</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>GPG_PRIVATE_KEY</code></td>
+          <td>Output of <code>gpg --armor --export-secret-key &lt;KEY_ID&gt;</code></td>
+        </tr>
+        <tr>
+          <td><code>GPG_KEY_ID</code></td>
+          <td>Short ID or fingerprint of the key (e.g. <code>ABCD1234</code>)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
+
+<footer>
+  <div class="page">
+    Made with <a href="https://github.com/IBM/bob">IBM Bob</a> &nbsp;·&nbsp;
+    <a href="https://github.com/ludovic-gasc/ibmi-rpm-packages">GitHub</a>
+  </div>
+</footer>
+
+</body>
+</html>

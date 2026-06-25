@@ -1,0 +1,18 @@
+# Repodata genere localement
+# Decommentez si vous ne voulez PAS versionner les metadonnees :
+# repodata/
+
+# GPG keyring temporaire
+.gpg-batch
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Editeurs
+*.swp
+*.swo
+.idea/
+.vscode/
