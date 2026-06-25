@@ -67,9 +67,6 @@
     .url-line strong { color: #57606a; flex-shrink: 0; }
     .url-line a { color: #3b82d4; word-break: break-all; }
 
-    /* Secrets table */
-    .secrets-table th, .secrets-table td { padding: 6px 10px; }
-
     /* Footer */
     footer {
       text-align: center; font-size: 12px; color: #57606a;
@@ -176,29 +173,6 @@ yum install qpdf</pre>
           <td><span class="arch">noarch</span></td>
           <td>QPDF documentation</td>
           <td><a href="packages/noarch/qpdf-doc-12.3.2-1.ibmi.ibmi7.6.noarch.rpm">↓ RPM</a></td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <!-- CI/CD secrets -->
-  <section>
-    <h2>CI/CD configuration (GitHub Secrets)</h2>
-    <p style="color:#57606a; margin-bottom:12px;">
-      To have the GitHub Actions workflow sign the metadata automatically,
-      add these two secrets under
-      <strong>Settings → Secrets and variables → Actions</strong>:
-    </p>
-    <table class="secrets-table">
-      <thead><tr><th>Secret</th><th>Value</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><code>GPG_PRIVATE_KEY</code></td>
-          <td>Output of <code>gpg --armor --export-secret-key &lt;KEY_ID&gt;</code></td>
-        </tr>
-        <tr>
-          <td><code>GPG_KEY_ID</code></td>
-          <td>Short ID or fingerprint of the key (e.g. <code>ABCD1234</code>)</td>
         </tr>
       </tbody>
     </table>
