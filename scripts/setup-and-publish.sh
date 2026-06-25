@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# setup-and-publish.sh — Full initialisation script for WSL2
+# setup-and-publish.sh — Full initialisation script
 # =============================================================================
 # Run ONCE to:
 #   1. Build repository metadata

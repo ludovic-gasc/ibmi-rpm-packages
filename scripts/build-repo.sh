@@ -2,7 +2,7 @@
 # =============================================================================
 # build-repo.sh — Build the IBM i RPM repository metadata
 # =============================================================================
-# Prerequisites (WSL2 / Debian-based):
+# Prerequisites (Debian-based):
 #   sudo apt install rpm createrepo-c
 #
 # Usage:

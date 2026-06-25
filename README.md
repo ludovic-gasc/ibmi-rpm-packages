@@ -35,9 +35,9 @@ yum install qpdf
 
 ## Contributing / Adding a package
 
-### Locally (WSL2)
+### Locally
 
-**Prerequisites** — in WSL2 (Ubuntu/Debian):
+**Prerequisites** (Ubuntu/Debian):
 ```bash
 sudo apt install rpm createrepo-c git
 ```
@@ -71,7 +71,7 @@ ibmi-rpm-packages/
 ├── scripts/
 │   ├── build-repo.sh        ← Generate repodata
 │   ├── add-package.sh       ← Add an RPM to the correct subdirectory
-│   └── setup-and-publish.sh ← One-shot full initialisation (WSL2)
+│   └── setup-and-publish.sh ← One-shot full initialisation
 ├── .github/
 │   └── workflows/
 │       └── publish.yml  ← GitHub Actions CI/CD
