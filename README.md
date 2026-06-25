@@ -24,12 +24,12 @@ yum install qpdf
 
 ## Available packages
 
-| Package | Version | Architecture | Description |
-|---|---|---|---|
-| `qpdf` | 12.3.2 | ppc64 | PDF manipulation tool |
-| `qpdf-libs` | 12.3.2 | ppc64 | QPDF shared libraries |
-| `qpdf-devel` | 12.3.2 | ppc64 | QPDF development headers |
-| `qpdf-doc` | 12.3.2 | noarch | QPDF documentation |
+| Package | Version | Architecture | Description | Spec file |
+|---|---|---|---|---|
+| `qpdf` | 12.3.2 | ppc64 | PDF manipulation tool | [`specs/qpdf-ibmi.spec`](specs/qpdf-ibmi.spec) |
+| `qpdf-libs` | 12.3.2 | ppc64 | QPDF shared libraries | [`specs/qpdf-ibmi.spec`](specs/qpdf-ibmi.spec) |
+| `qpdf-devel` | 12.3.2 | ppc64 | QPDF development headers | [`specs/qpdf-ibmi.spec`](specs/qpdf-ibmi.spec) |
+| `qpdf-doc` | 12.3.2 | noarch | QPDF documentation | [`specs/qpdf-ibmi.spec`](specs/qpdf-ibmi.spec) |
 
 ---
 
@@ -68,6 +68,8 @@ ibmi-rpm-packages/
 │   ├── noarch/          ← Architecture-independent RPMs
 │   └── ppc64/           ← IBM Power (IBM i) RPMs
 ├── repodata/            ← Generated metadata (repomd.xml, etc.)
+├── specs/               ← RPM spec files (build recipes)
+│   └── qpdf-ibmi.spec
 ├── scripts/
 │   ├── build-repo.sh        ← Generate repodata
 │   ├── add-package.sh       ← Add an RPM to the correct subdirectory
