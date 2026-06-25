@@ -111,4 +111,4 @@ ibmi-rpm-packages/
 
 ## License
 
-MIT — © Ludovic Gasc
+Apache 2.0 — © Ludovic Gasc
