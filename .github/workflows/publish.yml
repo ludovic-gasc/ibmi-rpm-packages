@@ -10,7 +10,7 @@ on:
     paths:
       - "packages/**"
       - "repodata/**"
-      - "RPM-GPG-KEY-ibmi"
+      - "index.html"
       - ".github/workflows/publish.yml"
   workflow_dispatch:      # manual trigger
 
