@@ -12,8 +12,8 @@ Community RPM repository for IBM i / IBM Power, hosted on **GitHub Pages**.
 
 ```bash
 # 1. Download the .repo file
-curl -o /QOpenSys/etc/yum/repos.d/ibmi-rpm-packages.repo \
-     https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi-rpm-packages.repo
+curl -o /QOpenSys/etc/yum/repos.d/ludovic-gasc-ibmi-rpm-packages.repo \
+     https://ludovic-gasc.github.io/ibmi-rpm-packages/ludovic-gasc-ibmi-rpm-packages.repo
 
 # 2. Refresh cache and install
 yum makecache
@@ -75,7 +75,7 @@ ibmi-rpm-packages/
 ├── .github/
 │   └── workflows/
 │       └── publish.yml  ← GitHub Actions CI/CD
-├── ibmi-rpm-packages.repo  ← .repo file for yum/dnf on IBM i
+├── ludovic-gasc-ibmi-rpm-packages.repo  ← .repo file for yum/dnf on IBM i
 └── README.md
 ```
 

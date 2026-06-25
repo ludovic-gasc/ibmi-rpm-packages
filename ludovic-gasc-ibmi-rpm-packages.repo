@@ -3,8 +3,8 @@
 # https://github.com/ludovic-gasc/ibmi-rpm-packages
 # ============================================================
 # Install on IBM i (yum / dnf):
-#   curl -o /QOpenSys/etc/yum/repos.d/ibmi-rpm-packages.repo \
-#        https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi-rpm-packages.repo
+#   curl -o /QOpenSys/etc/yum/repos.d/ludovic-gasc-ibmi-rpm-packages.repo \
+#        https://ludovic-gasc.github.io/ibmi-rpm-packages/ludovic-gasc-ibmi-rpm-packages.repo
 # ============================================================
 
 [ibmi-rpm-packages]
