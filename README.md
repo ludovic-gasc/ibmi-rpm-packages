@@ -45,59 +45,45 @@ yum install qpdf
 
 **Prerequisites** — in WSL2 (Ubuntu/Debian):
 ```bash
-sudo apt install rpm gnupg2 createrepo-c
+sudo apt install rpm gnupg2 createrepo-c git
 ```
 
-**Generate a GPG key** (once only):
+**Load your GPG key ID** (required for signing):
 ```bash
-gpg --full-generate-key
-# Type: RSA 4096, expiry: 2y
-# UID: Ludovic Gasc <ludovic.gasc@be.ibm.com>
-export GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format=long | grep sec | awk '{print $2}' | cut -d/ -f2)
-echo "Your GPG_KEY_ID: ${GPG_KEY_ID}"
+export GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format=long ludovic.gasc@be.ibm.com \
+  | grep "^sec" | awk '{print $2}' | cut -d'/' -f2 | head -1)
+echo "GPG_KEY_ID: ${GPG_KEY_ID}"
 ```
 
-**Add one or more RPMs**:
+**Add one or more RPMs** (signs, commits and pushes automatically):
 ```bash
+export GPG_KEY_ID=<your-key-id>
 ./scripts/add-package.sh path/to/my-package.ppc64.rpm
 ```
 
-**Manually rebuild the repo and sign**:
+The script will:
+1. Copy the RPM to `packages/<arch>/`
+2. Rebuild `repodata/` with `createrepo_c`
+3. Sign `repomd.xml` + export `RPM-GPG-KEY-ibmi` with GPG (locally)
+4. Commit and push to `main`
+5. GitHub Actions deploys the updated site to GitHub Pages
+
+**Manually rebuild and sign without pushing**:
 ```bash
 export GPG_KEY_ID=<your-key-id>
 ./scripts/build-repo.sh --sign
-```
-
-**Push the changes**:
-```bash
-git add -A
-git commit -m "Add my-package 1.0.0"
-git push origin main
-# → GitHub Actions rebuilds and publishes automatically on Pages
 ```
 
 ---
 
 ## Automated CI/CD
 
-The [`publish.yml`](.github/workflows/publish.yml) workflow triggers on every `push` to `main` that modifies `packages/`.
+The [`publish.yml`](.github/workflows/publish.yml) workflow triggers on every `push` to `main`.
 
-It performs:
-1. Installation of `createrepo_c` + `gnupg2`
-2. Import of the GPG private key (from the `GPG_PRIVATE_KEY` secret)
-3. Generation of `repodata/` metadata
-4. Signing of `repomd.xml` (if `GPG_KEY_ID` is set)
-5. Commit of the updated metadata back to `main`
-6. Deployment to **GitHub Pages**
+It performs a **single** task: deploy the repository root to **GitHub Pages**.
 
-### Required GitHub Secrets
-
-| Secret | Value |
-|---|---|
-| `GPG_PRIVATE_KEY` | Output of `gpg --armor --export-secret-key <KEY_ID>` |
-| `GPG_KEY_ID` | Short ID or fingerprint of the key (e.g. `ABCD1234`) |
-
-Add them at: **Settings → Secrets and variables → Actions**
+> **GPG signing is done locally in WSL2** — the private key never leaves your machine.
+> No GitHub Secrets are required.
 
 ---
 

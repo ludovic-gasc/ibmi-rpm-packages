@@ -1,11 +1,16 @@
 name: Build & Publish RPM Repository
 
+# GPG signing is done LOCALLY in WSL2 before pushing (see scripts/add-package.sh).
+# This workflow only regenerates repodata and deploys to GitHub Pages.
+# No GPG secrets are needed here.
+
 on:
   push:
     branches: [main]
     paths:
       - "packages/**"
-      - "scripts/**"
+      - "repodata/**"
+      - "RPM-GPG-KEY-ibmi"
       - ".github/workflows/publish.yml"
   workflow_dispatch:      # manual trigger
 
@@ -15,71 +20,20 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write         # to commit repodata back to main
+  contents: read
   pages: write            # to deploy to GitHub Pages
   id-token: write         # required for Pages OIDC deployment
 
 jobs:
-  build-repo:
-    name: Build repository metadata
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Install build tools
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            createrepo-c \
-            gnupg2 \
-            rpm
-
-      - name: Import GPG private key (optional)
-        if: ${{ secrets.GPG_PRIVATE_KEY != '' }}
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-        run: |
-          echo "${GPG_PRIVATE_KEY}" | gpg --batch --import
-          # Print imported key fingerprints for debugging
-          gpg --list-secret-keys --keyid-format=long
-
-      - name: Build repository metadata
-        env:
-          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
-        run: |
-          chmod +x scripts/build-repo.sh
-          if [[ -n "${GPG_KEY_ID}" ]]; then
-            bash scripts/build-repo.sh --sign
-          else
-            bash scripts/build-repo.sh
-          fi
-
-      - name: Commit updated repodata to main
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add repodata/ RPM-GPG-KEY-ibmi 2>/dev/null || true
-          if ! git diff --cached --quiet; then
-            git commit -m "ci: update repodata [skip ci]"
-            git push
-          else
-            echo "No repodata changes to commit."
-          fi
-
   deploy-pages:
     name: Deploy to GitHub Pages
-    needs: build-repo
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Checkout repository (with fresh repodata)
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: main

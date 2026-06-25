@@ -5,8 +5,13 @@
 # Usage:
 #   ./scripts/add-package.sh path/to/package-1.0.0.ppc64.rpm [another.rpm ...]
 #
-# The script detects the architecture from the RPM filename and places the
-# file in the correct packages/<arch>/ subdirectory, then rebuilds the repo.
+# The script detects the architecture from the RPM filename, places the file
+# in the correct packages/<arch>/ subdirectory, rebuilds the repodata and
+# signs repomd.xml with GPG (locally in WSL2).
+#
+# GPG signing requires GPG_KEY_ID to be set:
+#   export GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format=long ludovic.gasc@be.ibm.com \
+#     | grep "^sec" | awk '{print $2}' | cut -d'/' -f2 | head -1)
 # =============================================================================
 set -euo pipefail
 
@@ -58,6 +63,27 @@ for RPM_FILE in "$@"; do
   info "Added: ${DEST}"
 done
 
-# Rebuild repo metadata (without signing — call build-repo.sh --sign manually if needed)
-info "Rebuilding repository metadata..."
-bash "${SCRIPTS_DIR}/build-repo.sh"
+# ── Rebuild repo metadata and sign locally ───────────────────────────────────
+if [[ -n "${GPG_KEY_ID:-}" ]]; then
+  info "Rebuilding repository metadata and signing with GPG key ${GPG_KEY_ID}..."
+  bash "${SCRIPTS_DIR}/build-repo.sh" --sign
+else
+  warn "GPG_KEY_ID is not set — rebuilding without signature."
+  warn "Run: export GPG_KEY_ID=<your-key-id>  then re-run this script to sign."
+  bash "${SCRIPTS_DIR}/build-repo.sh"
+fi
+
+# ── Commit and push ──────────────────────────────────────────────────────────
+info "Staging changes for git..."
+git -C "${REPO_ROOT}" add packages/ repodata/ RPM-GPG-KEY-ibmi 2>/dev/null || true
+
+if git -C "${REPO_ROOT}" diff --cached --quiet; then
+  info "Nothing new to commit."
+else
+  # Build a commit message listing the added files
+  ADDED_FILES=$(git -C "${REPO_ROOT}" diff --cached --name-only | grep "^packages/" | xargs -I{} basename {} | paste -sd ", ")
+  git -C "${REPO_ROOT}" commit -m "Add package(s): ${ADDED_FILES}"
+  info "Pushing to GitHub..."
+  git -C "${REPO_ROOT}" push origin main
+  info "Done — GitHub Actions will publish the updated site to GitHub Pages."
+fi
