@@ -19,7 +19,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-GITHUB_REPO="https://github.com/ludovic-gasc/ibmi-rpm-packages.git"
+GITHUB_REPO="git@github.com:ludovic-gasc/ibmi-rpm-packages.git"
 GPG_EMAIL="ludovic.gasc@be.ibm.com"
 GPG_NAME="Ludovic Gasc"
 GPG_COMMENT="IBM i RPM Repository Signing Key"
