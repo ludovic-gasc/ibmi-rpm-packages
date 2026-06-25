@@ -6,12 +6,8 @@
 #   ./scripts/add-package.sh path/to/package-1.0.0.ppc64.rpm [another.rpm ...]
 #
 # The script detects the architecture from the RPM filename, places the file
-# in the correct packages/<arch>/ subdirectory, rebuilds the repodata and
-# signs repomd.xml with GPG (locally in WSL2).
-#
-# GPG signing requires GPG_KEY_ID to be set:
-#   export GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format=long ludovic.gasc@be.ibm.com \
-#     | grep "^sec" | awk '{print $2}' | cut -d'/' -f2 | head -1)
+# in the correct packages/<arch>/ subdirectory, rebuilds the repodata,
+# commits and pushes to GitHub.
 # =============================================================================
 set -euo pipefail
 
@@ -63,19 +59,13 @@ for RPM_FILE in "$@"; do
   info "Added: ${DEST}"
 done
 
-# ── Rebuild repo metadata and sign locally ───────────────────────────────────
-if [[ -n "${GPG_KEY_ID:-}" ]]; then
-  info "Rebuilding repository metadata and signing with GPG key ${GPG_KEY_ID}..."
-  bash "${SCRIPTS_DIR}/build-repo.sh" --sign
-else
-  warn "GPG_KEY_ID is not set — rebuilding without signature."
-  warn "Run: export GPG_KEY_ID=<your-key-id>  then re-run this script to sign."
-  bash "${SCRIPTS_DIR}/build-repo.sh"
-fi
+# ── Rebuild repo metadata ─────────────────────────────────────────────────────
+info "Rebuilding repository metadata..."
+bash "${SCRIPTS_DIR}/build-repo.sh"
 
 # ── Commit and push ──────────────────────────────────────────────────────────
 info "Staging changes for git..."
-git -C "${REPO_ROOT}" add packages/ repodata/ RPM-GPG-KEY-ibmi 2>/dev/null || true
+git -C "${REPO_ROOT}" add packages/ repodata/ 2>/dev/null || true
 
 if git -C "${REPO_ROOT}" diff --cached --quiet; then
   info "Nothing new to commit."
