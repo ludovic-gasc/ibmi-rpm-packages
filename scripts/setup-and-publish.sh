@@ -3,11 +3,11 @@
 # setup-and-publish.sh — Full initialisation script
 # =============================================================================
 # Run ONCE to:
-#   1. Build repository metadata
+#   1. Build repository metadata for all IBM i versions
 #   2. Initialise the git repository and push to GitHub
 #
-# Prerequisites:
-#   sudo apt install rpm createrepo-c git
+# Prerequisites (Debian-based / WSL2 Ubuntu):
+#   sudo apt install createrepo-c git
 #
 # Usage:
 #   cd /path/to/ibmi-rpm-packages
@@ -27,8 +27,8 @@ section() { echo -e "\n${CYAN}════════════════�
 
 cd "${REPO_ROOT}"
 
-# ── STEP 1: Build repository metadata ────────────────────────────────────────
-section "Step 1 — Build metadata"
+# ── STEP 1: Build repository metadata for all versions ───────────────────────
+section "Step 1 — Build metadata (all IBM i versions)"
 bash "${REPO_ROOT}/scripts/build-repo.sh"
 
 # ── STEP 2: Git init + push ──────────────────────────────────────────────────
@@ -48,7 +48,7 @@ git -C "${REPO_ROOT}" config user.name  "${GIT_NAME}"
 git -C "${REPO_ROOT}" config user.email "${GIT_EMAIL}"
 
 git -C "${REPO_ROOT}" add -A
-git -C "${REPO_ROOT}" commit -m "Initial commit: IBM i RPM repository with qpdf 12.3.2" || \
+git -C "${REPO_ROOT}" commit -m "Initial commit: IBM i RPM repository with qpdf 12.3.2 (7.4 + 7.6)" || \
   info "Nothing to commit (already up to date)."
 
 info "Pushing to GitHub..."
@@ -62,3 +62,7 @@ echo "       https://github.com/new  →  ibmi-rpm-packages  (public)"
 echo "  2. Enable GitHub Pages:"
 echo "       Settings → Pages → Source: GitHub Actions"
 echo "  3. Every push to main will automatically rebuild and publish."
+echo ""
+echo "Repository endpoints:"
+echo "  IBM i 7.4 → https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.4/"
+echo "  IBM i 7.6 → https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.6/"

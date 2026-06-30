@@ -24,12 +24,17 @@
       border-radius: 12px; font-size: 12px; font-weight: 600;
       background: #dbeafe; color: #1e40af; margin-right: 6px;
     }
+    .badge-os {
+      display: inline-block; padding: 2px 10px;
+      border-radius: 12px; font-size: 12px; font-weight: 600;
+      background: #dcfce7; color: #166534; margin-right: 6px;
+    }
 
     /* Sections */
     section { margin-bottom: 40px; }
     h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 14px;
          border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; }
-    h3 { font-size: 0.95rem; font-weight: 600; margin: 18px 0 8px; color: #57606a; }
+    h3 { font-size: 0.95rem; font-weight: 600; margin: 20px 0 10px; color: #1f2328; }
 
     /* Install box */
     .install-box {
@@ -62,10 +67,22 @@
       display: flex; align-items: center; gap: 10px;
       background: #f7f8fa; border: 1px solid #e5e7eb;
       border-radius: 6px; padding: 10px 14px; font-size: 13px;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
-    .url-line strong { color: #57606a; flex-shrink: 0; }
+    .url-line strong { color: #57606a; flex-shrink: 0; min-width: 90px; }
     .url-line a { color: #3b82d4; word-break: break-all; }
+
+    /* Version tabs */
+    .version-block {
+      border: 1px solid #e5e7eb; border-radius: 6px;
+      margin-bottom: 24px; overflow: hidden;
+    }
+    .version-header {
+      background: #f7f8fa; padding: 10px 16px;
+      font-weight: 600; font-size: 0.9rem;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex; align-items: center; gap: 10px;
+    }
 
     /* Footer */
     footer {
@@ -79,19 +96,35 @@
 
   <header>
     <h1>IBM i RPM Packages</h1>
-    <p>Community RPM repository for IBM i / IBM Power</p>
+    <p>Community RPM repository for IBM i / IBM Power — two separate repositories per OS version</p>
     <br>
     <span class="badge">ppc64</span>
     <span class="badge">noarch</span>
+    <span class="badge-os">IBM i 7.4</span>
+    <span class="badge-os">IBM i 7.6</span>
   </header>
 
   <!-- Quick install -->
   <section>
     <h2>Quick install on IBM i</h2>
+
+    <h3>IBM i 7.6</h3>
     <div class="install-box">
-      <p>1 — Download and enable the repository</p>
-      <pre>curl -o /QOpenSys/etc/yum/repos.d/ludovic-gasc-ibmi-rpm-packages.repo \
-     https://ludovic-gasc.github.io/ibmi-rpm-packages/ludovic-gasc-ibmi-rpm-packages.repo</pre>
+      <p>1 — Download and enable the IBM i 7.6 repository</p>
+      <pre>curl -o /QOpenSys/etc/yum/repos.d/ludovic-gasc-ibmi-rpm-packages-76.repo \
+     https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.6/ludovic-gasc-ibmi-rpm-packages-76.repo</pre>
+    </div>
+    <div class="install-box">
+      <p>2 — Install a package</p>
+      <pre>yum makecache
+yum install qpdf</pre>
+    </div>
+
+    <h3>IBM i 7.4</h3>
+    <div class="install-box">
+      <p>1 — Download and enable the IBM i 7.4 repository</p>
+      <pre>curl -o /QOpenSys/etc/yum/repos.d/ludovic-gasc-ibmi-rpm-packages-74.repo \
+     https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.4/ludovic-gasc-ibmi-rpm-packages-74.repo</pre>
     </div>
     <div class="install-box">
       <p>2 — Install a package</p>
@@ -103,64 +136,133 @@ yum install qpdf</pre>
   <!-- Package list -->
   <section>
     <h2>Available packages</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Package</th>
-          <th>Version</th>
-          <th>Arch</th>
-          <th>Description</th>
-          <th>Download</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><code>qpdf</code></td>
-          <td>12.3.2</td>
-          <td><span class="arch">ppc64</span></td>
-          <td>PDF manipulation and conversion tool</td>
-          <td><a href="packages/ppc64/qpdf-12.3.2-1.ibmi.ibmi7.6.ppc64.rpm">↓ RPM</a></td>
-        </tr>
-        <tr>
-          <td><code>qpdf-libs</code></td>
-          <td>12.3.2</td>
-          <td><span class="arch">ppc64</span></td>
-          <td>QPDF shared libraries (libqpdf)</td>
-          <td><a href="packages/ppc64/qpdf-libs-12.3.2-1.ibmi.ibmi7.6.ppc64.rpm">↓ RPM</a></td>
-        </tr>
-        <tr>
-          <td><code>qpdf-devel</code></td>
-          <td>12.3.2</td>
-          <td><span class="arch">ppc64</span></td>
-          <td>QPDF development headers</td>
-          <td><a href="packages/ppc64/qpdf-devel-12.3.2-1.ibmi.ibmi7.6.ppc64.rpm">↓ RPM</a></td>
-        </tr>
-        <tr>
-          <td><code>qpdf-doc</code></td>
-          <td>12.3.2</td>
-          <td><span class="arch">noarch</span></td>
-          <td>QPDF documentation</td>
-          <td><a href="packages/noarch/qpdf-doc-12.3.2-1.ibmi.ibmi7.6.noarch.rpm">↓ RPM</a></td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="version-block">
+      <div class="version-header">
+        <span class="badge-os">IBM i 7.6</span> — ppc64 / Power9
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Package</th>
+            <th>Version</th>
+            <th>Arch</th>
+            <th>Description</th>
+            <th>Download</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>qpdf</code></td>
+            <td>12.3.2</td>
+            <td><span class="arch">ppc64</span></td>
+            <td>PDF manipulation and conversion tool</td>
+            <td><a href="ibmi/7.6/packages/ppc64/qpdf-12.3.2-1.ibmi7.6.ppc64.rpm">↓ RPM</a></td>
+          </tr>
+          <tr>
+            <td><code>qpdf-libs</code></td>
+            <td>12.3.2</td>
+            <td><span class="arch">ppc64</span></td>
+            <td>QPDF shared libraries (libqpdf)</td>
+            <td><a href="ibmi/7.6/packages/ppc64/qpdf-libs-12.3.2-1.ibmi7.6.ppc64.rpm">↓ RPM</a></td>
+          </tr>
+          <tr>
+            <td><code>qpdf-devel</code></td>
+            <td>12.3.2</td>
+            <td><span class="arch">ppc64</span></td>
+            <td>QPDF development headers</td>
+            <td><a href="ibmi/7.6/packages/ppc64/qpdf-devel-12.3.2-1.ibmi7.6.ppc64.rpm">↓ RPM</a></td>
+          </tr>
+          <tr>
+            <td><code>qpdf-doc</code></td>
+            <td>12.3.2</td>
+            <td><span class="arch">noarch</span></td>
+            <td>QPDF documentation</td>
+            <td><a href="ibmi/7.6/packages/noarch/qpdf-doc-12.3.2-1.ibmi7.6.noarch.rpm">↓ RPM</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="version-block">
+      <div class="version-header">
+        <span class="badge-os">IBM i 7.4</span> — ppc64 / Power8
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Package</th>
+            <th>Version</th>
+            <th>Arch</th>
+            <th>Description</th>
+            <th>Download</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>qpdf</code></td>
+            <td>12.3.2</td>
+            <td><span class="arch">ppc64</span></td>
+            <td>PDF manipulation and conversion tool</td>
+            <td><a href="ibmi/7.4/packages/ppc64/qpdf-12.3.2-1.ibmi7.4.ppc64.rpm">↓ RPM</a></td>
+          </tr>
+          <tr>
+            <td><code>qpdf-libs</code></td>
+            <td>12.3.2</td>
+            <td><span class="arch">ppc64</span></td>
+            <td>QPDF shared libraries (libqpdf)</td>
+            <td><a href="ibmi/7.4/packages/ppc64/qpdf-libs-12.3.2-1.ibmi7.4.ppc64.rpm">↓ RPM</a></td>
+          </tr>
+          <tr>
+            <td><code>qpdf-devel</code></td>
+            <td>12.3.2</td>
+            <td><span class="arch">ppc64</span></td>
+            <td>QPDF development headers</td>
+            <td><a href="ibmi/7.4/packages/ppc64/qpdf-devel-12.3.2-1.ibmi7.4.ppc64.rpm">↓ RPM</a></td>
+          </tr>
+          <tr>
+            <td><code>qpdf-doc</code></td>
+            <td>12.3.2</td>
+            <td><span class="arch">noarch</span></td>
+            <td>QPDF documentation</td>
+            <td><a href="ibmi/7.4/packages/noarch/qpdf-doc-12.3.2-1.ibmi7.4.noarch.rpm">↓ RPM</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <!-- Endpoint info -->
   <section>
     <h2>Repository endpoints</h2>
+
+    <h3>IBM i 7.6</h3>
     <div class="url-line">
       <strong>Base URL</strong>
-      <a href="https://ludovic-gasc.github.io/ibmi-rpm-packages/">
-        https://ludovic-gasc.github.io/ibmi-rpm-packages/
+      <a href="https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.6/">
+        https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.6/
       </a>
     </div>
     <div class="url-line">
       <strong>.repo file</strong>
-      <a href="ludovic-gasc-ibmi-rpm-packages.repo">ludovic-gasc-ibmi-rpm-packages.repo</a>
+      <a href="ibmi/7.6/ludovic-gasc-ibmi-rpm-packages-76.repo">ludovic-gasc-ibmi-rpm-packages-76.repo</a>
+    </div>
+
+    <h3>IBM i 7.4</h3>
+    <div class="url-line">
+      <strong>Base URL</strong>
+      <a href="https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.4/">
+        https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.4/
+      </a>
     </div>
     <div class="url-line">
-      <strong>Source</strong>
+      <strong>.repo file</strong>
+      <a href="ibmi/7.4/ludovic-gasc-ibmi-rpm-packages-74.repo">ludovic-gasc-ibmi-rpm-packages-74.repo</a>
+    </div>
+
+    <h3>Source</h3>
+    <div class="url-line">
+      <strong>GitHub</strong>
       <a href="https://github.com/ludovic-gasc/ibmi-rpm-packages">
         github.com/ludovic-gasc/ibmi-rpm-packages
       </a>

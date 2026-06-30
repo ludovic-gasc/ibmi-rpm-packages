@@ -1,0 +1,16 @@
+# ============================================================
+# IBM i 7.6 RPM Repository — Ludovic Gasc
+# https://github.com/ludovic-gasc/ibmi-rpm-packages
+# ============================================================
+# Install on IBM i 7.6 (yum / dnf):
+#   curl -o /QOpenSys/etc/yum/repos.d/ludovic-gasc-ibmi-rpm-packages-76.repo \
+#        https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.6/ludovic-gasc-ibmi-rpm-packages-76.repo
+# ============================================================
+
+[ibmi-rpm-packages-76]
+name=IBM i 7.6 RPM Packages — Ludovic Gasc
+baseurl=https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.6/
+enabled=1
+gpgcheck=0
+repo_gpgcheck=0
+metadata_expire=86400
