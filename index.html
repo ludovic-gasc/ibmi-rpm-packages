@@ -81,7 +81,24 @@
     .url-line strong { color: #57606a; flex-shrink: 0; min-width: 90px; }
     .url-line a { color: #3b82d4; word-break: break-all; }
 
-    /* Version tabs */
+    /* Tabs */
+    .tab-bar {
+      display: flex; gap: 0;
+      border-bottom: 2px solid #e5e7eb;
+      margin-bottom: 28px;
+    }
+    .tab-btn {
+      padding: 8px 20px; font-size: 0.9rem; font-weight: 600;
+      background: none; border: none; cursor: pointer;
+      color: #57606a; border-bottom: 2px solid transparent;
+      margin-bottom: -2px; border-radius: 4px 4px 0 0;
+    }
+    .tab-btn:hover { color: #1f2328; }
+    .tab-btn.active { color: #1f2328; border-bottom-color: #3b82d4; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Version block (packages table) */
     .version-block {
       border: 1px solid #e5e7eb; border-radius: 6px;
       margin-bottom: 24px; overflow: hidden;
@@ -113,190 +130,189 @@
     <span class="badge-os">IBM i 7.6</span>
   </header>
 
-  <!-- Quick install -->
-  <section>
-    <h2>Quick install on IBM i</h2>
+  <!-- Tab bar -->
+  <div class="tab-bar" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true"  data-tab="76">IBM i 7.6</button>
+    <button class="tab-btn"        role="tab" aria-selected="false" data-tab="74">IBM i 7.4</button>
+  </div>
 
-    <h3>IBM i 7.6</h3>
-    <div class="install-box">
-      <p>1 — Download and enable the IBM i 7.6 repository</p>
-      <div class="pre-wrap">
-        <pre>curl -o /QOpenSys/etc/yum/repos.d/ludovic-gasc-ibmi-rpm-packages-76.repo \
+  <!-- ===== IBM i 7.6 ===== -->
+  <div class="tab-panel active" data-panel="76">
+
+    <section>
+      <h2>Quick install on IBM i 7.6</h2>
+      <div class="install-box">
+        <p>1 — Download and enable the IBM i 7.6 repository</p>
+        <div class="pre-wrap">
+          <pre>curl -o /QOpenSys/etc/yum/repos.d/ludovic-gasc-ibmi-rpm-packages-76.repo \
      https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.6/ludovic-gasc-ibmi-rpm-packages-76.repo</pre>
-        <button class="copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard">
-          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
-        </button>
+          <button class="copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard">
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="install-box">
-      <p>2 — Install a package</p>
-      <div class="pre-wrap">
-        <pre>yum makecache
+      <div class="install-box">
+        <p>2 — Install a package</p>
+        <div class="pre-wrap">
+          <pre>yum makecache
 yum install qpdf</pre>
-        <button class="copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard">
-          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
-        </button>
+          <button class="copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard">
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+          </button>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <h3>IBM i 7.4</h3>
-    <div class="install-box">
-      <p>1 — Download and enable the IBM i 7.4 repository</p>
-      <div class="pre-wrap">
-        <pre>curl -o /QOpenSys/etc/yum/repos.d/ludovic-gasc-ibmi-rpm-packages-74.repo \
+    <section>
+      <h2>Available packages</h2>
+      <div class="version-block">
+        <div class="version-header">
+          <span class="badge-os">IBM i 7.6</span> — ppc64 / Power9
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Package</th><th>Version</th><th>Arch</th><th>Description</th><th>Download</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>qpdf</code></td><td>12.3.2</td>
+              <td><span class="arch">ppc64</span></td>
+              <td>PDF manipulation and conversion tool</td>
+              <td><a href="ibmi/7.6/packages/ppc64/qpdf-12.3.2-1.ibmi7.6.ppc64.rpm">↓ RPM</a></td>
+            </tr>
+            <tr>
+              <td><code>qpdf-libs</code></td><td>12.3.2</td>
+              <td><span class="arch">ppc64</span></td>
+              <td>QPDF shared libraries (libqpdf)</td>
+              <td><a href="ibmi/7.6/packages/ppc64/qpdf-libs-12.3.2-1.ibmi7.6.ppc64.rpm">↓ RPM</a></td>
+            </tr>
+            <tr>
+              <td><code>qpdf-devel</code></td><td>12.3.2</td>
+              <td><span class="arch">ppc64</span></td>
+              <td>QPDF development headers</td>
+              <td><a href="ibmi/7.6/packages/ppc64/qpdf-devel-12.3.2-1.ibmi7.6.ppc64.rpm">↓ RPM</a></td>
+            </tr>
+            <tr>
+              <td><code>qpdf-doc</code></td><td>12.3.2</td>
+              <td><span class="arch">noarch</span></td>
+              <td>QPDF documentation</td>
+              <td><a href="ibmi/7.6/packages/noarch/qpdf-doc-12.3.2-1.ibmi7.6.noarch.rpm">↓ RPM</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Repository endpoints</h2>
+      <div class="url-line">
+        <strong>Base URL</strong>
+        <a href="https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.6/">
+          https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.6/
+        </a>
+      </div>
+      <div class="url-line">
+        <strong>.repo file</strong>
+        <a href="ibmi/7.6/ludovic-gasc-ibmi-rpm-packages-76.repo">ludovic-gasc-ibmi-rpm-packages-76.repo</a>
+      </div>
+      <div class="url-line">
+        <strong>GitHub</strong>
+        <a href="https://github.com/ludovic-gasc/ibmi-rpm-packages">github.com/ludovic-gasc/ibmi-rpm-packages</a>
+      </div>
+    </section>
+
+  </div><!-- /panel 76 -->
+
+  <!-- ===== IBM i 7.4 ===== -->
+  <div class="tab-panel" data-panel="74">
+
+    <section>
+      <h2>Quick install on IBM i 7.4</h2>
+      <div class="install-box">
+        <p>1 — Download and enable the IBM i 7.4 repository</p>
+        <div class="pre-wrap">
+          <pre>curl -o /QOpenSys/etc/yum/repos.d/ludovic-gasc-ibmi-rpm-packages-74.repo \
      https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.4/ludovic-gasc-ibmi-rpm-packages-74.repo</pre>
-        <button class="copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard">
-          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
-        </button>
+          <button class="copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard">
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="install-box">
-      <p>2 — Install a package</p>
-      <div class="pre-wrap">
-        <pre>yum makecache
+      <div class="install-box">
+        <p>2 — Install a package</p>
+        <div class="pre-wrap">
+          <pre>yum makecache
 yum install qpdf</pre>
-        <button class="copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard">
-          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
-        </button>
+          <button class="copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard">
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+          </button>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Package list -->
-  <section>
-    <h2>Available packages</h2>
-
-    <div class="version-block">
-      <div class="version-header">
-        <span class="badge-os">IBM i 7.6</span> — ppc64 / Power9
+    <section>
+      <h2>Available packages</h2>
+      <div class="version-block">
+        <div class="version-header">
+          <span class="badge-os">IBM i 7.4</span> — ppc64 / Power8
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Package</th><th>Version</th><th>Arch</th><th>Description</th><th>Download</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>qpdf</code></td><td>12.3.2</td>
+              <td><span class="arch">ppc64</span></td>
+              <td>PDF manipulation and conversion tool</td>
+              <td><a href="ibmi/7.4/packages/ppc64/qpdf-12.3.2-1.ibmi7.4.ppc64.rpm">↓ RPM</a></td>
+            </tr>
+            <tr>
+              <td><code>qpdf-libs</code></td><td>12.3.2</td>
+              <td><span class="arch">ppc64</span></td>
+              <td>QPDF shared libraries (libqpdf)</td>
+              <td><a href="ibmi/7.4/packages/ppc64/qpdf-libs-12.3.2-1.ibmi7.4.ppc64.rpm">↓ RPM</a></td>
+            </tr>
+            <tr>
+              <td><code>qpdf-devel</code></td><td>12.3.2</td>
+              <td><span class="arch">ppc64</span></td>
+              <td>QPDF development headers</td>
+              <td><a href="ibmi/7.4/packages/ppc64/qpdf-devel-12.3.2-1.ibmi7.4.ppc64.rpm">↓ RPM</a></td>
+            </tr>
+            <tr>
+              <td><code>qpdf-doc</code></td><td>12.3.2</td>
+              <td><span class="arch">noarch</span></td>
+              <td>QPDF documentation</td>
+              <td><a href="ibmi/7.4/packages/noarch/qpdf-doc-12.3.2-1.ibmi7.4.noarch.rpm">↓ RPM</a></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Package</th>
-            <th>Version</th>
-            <th>Arch</th>
-            <th>Description</th>
-            <th>Download</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>qpdf</code></td>
-            <td>12.3.2</td>
-            <td><span class="arch">ppc64</span></td>
-            <td>PDF manipulation and conversion tool</td>
-            <td><a href="ibmi/7.6/packages/ppc64/qpdf-12.3.2-1.ibmi7.6.ppc64.rpm">↓ RPM</a></td>
-          </tr>
-          <tr>
-            <td><code>qpdf-libs</code></td>
-            <td>12.3.2</td>
-            <td><span class="arch">ppc64</span></td>
-            <td>QPDF shared libraries (libqpdf)</td>
-            <td><a href="ibmi/7.6/packages/ppc64/qpdf-libs-12.3.2-1.ibmi7.6.ppc64.rpm">↓ RPM</a></td>
-          </tr>
-          <tr>
-            <td><code>qpdf-devel</code></td>
-            <td>12.3.2</td>
-            <td><span class="arch">ppc64</span></td>
-            <td>QPDF development headers</td>
-            <td><a href="ibmi/7.6/packages/ppc64/qpdf-devel-12.3.2-1.ibmi7.6.ppc64.rpm">↓ RPM</a></td>
-          </tr>
-          <tr>
-            <td><code>qpdf-doc</code></td>
-            <td>12.3.2</td>
-            <td><span class="arch">noarch</span></td>
-            <td>QPDF documentation</td>
-            <td><a href="ibmi/7.6/packages/noarch/qpdf-doc-12.3.2-1.ibmi7.6.noarch.rpm">↓ RPM</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    </section>
 
-    <div class="version-block">
-      <div class="version-header">
-        <span class="badge-os">IBM i 7.4</span> — ppc64 / Power8
+    <section>
+      <h2>Repository endpoints</h2>
+      <div class="url-line">
+        <strong>Base URL</strong>
+        <a href="https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.4/">
+          https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.4/
+        </a>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Package</th>
-            <th>Version</th>
-            <th>Arch</th>
-            <th>Description</th>
-            <th>Download</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>qpdf</code></td>
-            <td>12.3.2</td>
-            <td><span class="arch">ppc64</span></td>
-            <td>PDF manipulation and conversion tool</td>
-            <td><a href="ibmi/7.4/packages/ppc64/qpdf-12.3.2-1.ibmi7.4.ppc64.rpm">↓ RPM</a></td>
-          </tr>
-          <tr>
-            <td><code>qpdf-libs</code></td>
-            <td>12.3.2</td>
-            <td><span class="arch">ppc64</span></td>
-            <td>QPDF shared libraries (libqpdf)</td>
-            <td><a href="ibmi/7.4/packages/ppc64/qpdf-libs-12.3.2-1.ibmi7.4.ppc64.rpm">↓ RPM</a></td>
-          </tr>
-          <tr>
-            <td><code>qpdf-devel</code></td>
-            <td>12.3.2</td>
-            <td><span class="arch">ppc64</span></td>
-            <td>QPDF development headers</td>
-            <td><a href="ibmi/7.4/packages/ppc64/qpdf-devel-12.3.2-1.ibmi7.4.ppc64.rpm">↓ RPM</a></td>
-          </tr>
-          <tr>
-            <td><code>qpdf-doc</code></td>
-            <td>12.3.2</td>
-            <td><span class="arch">noarch</span></td>
-            <td>QPDF documentation</td>
-            <td><a href="ibmi/7.4/packages/noarch/qpdf-doc-12.3.2-1.ibmi7.4.noarch.rpm">↓ RPM</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+      <div class="url-line">
+        <strong>.repo file</strong>
+        <a href="ibmi/7.4/ludovic-gasc-ibmi-rpm-packages-74.repo">ludovic-gasc-ibmi-rpm-packages-74.repo</a>
+      </div>
+      <div class="url-line">
+        <strong>GitHub</strong>
+        <a href="https://github.com/ludovic-gasc/ibmi-rpm-packages">github.com/ludovic-gasc/ibmi-rpm-packages</a>
+      </div>
+    </section>
 
-  <!-- Endpoint info -->
-  <section>
-    <h2>Repository endpoints</h2>
-
-    <h3>IBM i 7.6</h3>
-    <div class="url-line">
-      <strong>Base URL</strong>
-      <a href="https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.6/">
-        https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.6/
-      </a>
-    </div>
-    <div class="url-line">
-      <strong>.repo file</strong>
-      <a href="ibmi/7.6/ludovic-gasc-ibmi-rpm-packages-76.repo">ludovic-gasc-ibmi-rpm-packages-76.repo</a>
-    </div>
-
-    <h3>IBM i 7.4</h3>
-    <div class="url-line">
-      <strong>Base URL</strong>
-      <a href="https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.4/">
-        https://ludovic-gasc.github.io/ibmi-rpm-packages/ibmi/7.4/
-      </a>
-    </div>
-    <div class="url-line">
-      <strong>.repo file</strong>
-      <a href="ibmi/7.4/ludovic-gasc-ibmi-rpm-packages-74.repo">ludovic-gasc-ibmi-rpm-packages-74.repo</a>
-    </div>
-
-    <h3>Source</h3>
-    <div class="url-line">
-      <strong>GitHub</strong>
-      <a href="https://github.com/ludovic-gasc/ibmi-rpm-packages">
-        github.com/ludovic-gasc/ibmi-rpm-packages
-      </a>
-    </div>
-  </section>
+  </div><!-- /panel 74 -->
 
 </div>
 
@@ -308,6 +324,21 @@ yum install qpdf</pre>
 </footer>
 
 <script>
+  /* Tab switching */
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var tab = btn.dataset.tab;
+      document.querySelectorAll('.tab-btn').forEach(function(b) {
+        b.classList.toggle('active', b.dataset.tab === tab);
+        b.setAttribute('aria-selected', b.dataset.tab === tab ? 'true' : 'false');
+      });
+      document.querySelectorAll('.tab-panel').forEach(function(p) {
+        p.classList.toggle('active', p.dataset.panel === tab);
+      });
+    });
+  });
+
+  /* Copy to clipboard */
   document.querySelectorAll('.copy-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
       var text = btn.closest('.pre-wrap').querySelector('pre').innerText;
