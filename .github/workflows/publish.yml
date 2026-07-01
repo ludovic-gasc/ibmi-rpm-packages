@@ -1,9 +1,5 @@
 name: Build & Publish RPM Repository
 
-# GPG signing is done LOCALLY before pushing (see scripts/add-package.sh).
-# This workflow only regenerates repodata and deploys to GitHub Pages.
-# No GPG secrets are needed here.
-
 on:
   push:
     branches: [main]
